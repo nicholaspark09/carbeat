@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.example.vn008xw.carbeat.AppExecutors;
 import com.example.vn008xw.carbeat.BuildConfig;
 import com.example.vn008xw.carbeat.data.api.MovieService;
 import com.example.vn008xw.carbeat.data.db.MovieDao;
 import com.example.vn008xw.carbeat.data.db.MovieDb;
+import com.example.vn008xw.carbeat.data.movie.MovieRepository;
 import com.example.vn008xw.carbeat.di.ApplicationScope;
 import com.example.vn008xw.carbeat.utils.DaggerUtils;
 import com.example.vn008xw.carbeat.utils.LiveDataCallAdapterFactory;
@@ -116,7 +118,7 @@ public class DataModule {
 
   @Provides
   @ApplicationScope
-  MovieDb provideDatabase(Application app) {
+  MovieDb provideMoviesDb(Application app) {
     return DaggerUtils.track(Room.databaseBuilder(app, MovieDb.class, "movies.db").build());
   }
 
@@ -124,6 +126,12 @@ public class DataModule {
   @ApplicationScope
   MovieDao provideMovieDao(MovieDb movieDb) {
     return DaggerUtils.track(movieDb.movieDao());
+  }
+
+  @Provides
+  @ApplicationScope
+  AppExecutors provideAppExecutors() {
+    return DaggerUtils.track(new AppExecutors());
   }
 
   @Provides

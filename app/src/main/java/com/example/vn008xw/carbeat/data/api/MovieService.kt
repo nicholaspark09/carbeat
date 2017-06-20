@@ -11,9 +11,9 @@ import retrofit2.http.QueryMap
  * Created by vn008xw on 6/11/17.
  */
 interface MovieService {
-    @GET("")
+    @GET("/")
     fun query(@QueryMap options: Map<String, String>): LiveData<ApiResponse<List<Movie>>>
 
-    @GET("")
+    @GET("/movies")
     fun findMovie(@QueryMap options: Map<String, String>): LiveData<ApiResponse<Movie>>
 }

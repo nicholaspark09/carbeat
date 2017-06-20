@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by vn008xw on 6/11/17.
  */
-@Entity(primaryKeys = arrayOf("imdbID"))
+@Entity(tableName = "movie", primaryKeys = arrayOf("imdbID"))
 data class Movie constructor(
     @SerializedName("Title")
     val title: String,

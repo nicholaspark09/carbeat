@@ -62,6 +62,7 @@ public class MovieRepository {
   }
 
   public LiveData<Resource<List<Movie>>> loadMovies(@NonNull int offset, @NonNull String year) {
+
     return new NetworkBoundResource<List<Movie>, List<Movie>>(appExecutors) {
 
       @Override
@@ -71,7 +72,8 @@ public class MovieRepository {
 
       @Override
       protected boolean shouldFetch(@Nullable List<Movie> data) {
-        return data == null || data.isEmpty() || moviesListRateLimit.shouldFetch(year);
+        Log.d(MovieRepository.class.getSimpleName(), "Checking if we should fetch");
+        return data == null || data.isEmpty();
       }
 
       @NonNull
@@ -83,6 +85,7 @@ public class MovieRepository {
       @NonNull
       @Override
       protected LiveData<ApiResponse<List<Movie>>> createCall() {
+        Log.d("Repository", "Trying to call the movies from the service");
         HashMap<String, String> map = addToMap(queryMap, "y", year);
         Log.d(MovieRepository.class.getSimpleName(), "The Map is: " + map.toString());
         return movieService.query(map);

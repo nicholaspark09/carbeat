@@ -11,6 +11,7 @@ import android.view.View;
 import com.example.vn008xw.carbeat.base.BaseActivity;
 import com.example.vn008xw.carbeat.databinding.ActivityMainBinding;
 import com.example.vn008xw.carbeat.di.DaggerService;
+import com.example.vn008xw.carbeat.ui.NavigationController;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +22,9 @@ public class MainActivity extends BaseActivity {
     @Inject
     Application application;
 
+    @Inject
+    NavigationController navigationController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,11 +33,8 @@ public class MainActivity extends BaseActivity {
 
         onCreateView(MainActivity.this);
         if (savedInstanceState == null) {
-
-        } else {
-
+            navigationController.navigateToMovies(this);
         }
-
     }
 
     @Override

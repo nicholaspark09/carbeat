@@ -24,7 +24,7 @@ class RateLimiter<KEY>(timeout: Int, timeUnit: TimeUnit) {
             timestamps.put(key, now)
             return true
         }
-        if (now - lastFetched!! > timeout) {
+        if (now - lastFetched > timeout) {
             timestamps.put(key, now)
             return true
         }

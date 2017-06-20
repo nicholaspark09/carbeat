@@ -74,7 +74,7 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
     // kotlin libraries
-    kapt "com.android.databinding:compiler:${rootProject.ext.android_plugin}"
+    kapt "com.android.databinding:compiler:3.0.0-alpha3"
     compile "org.jetbrains.kotlin:kotlin-reflect:${rootProject.ext.kotlin_version}"
 
     compile "com.android.support:support-v4:${rootProject.ext.support_version}"
@@ -101,6 +101,7 @@ dependencies {
     compile "android.arch.lifecycle:extensions:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
+    kapt "android.arch.persistence.room:compiler:$arch_version"
     implementation 'com.android.support:support-v4:25.3.1'
 }
 repositories {
