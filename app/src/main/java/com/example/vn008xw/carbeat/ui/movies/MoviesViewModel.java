@@ -7,15 +7,10 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.example.vn008xw.carbeat.AppExecutors;
-import com.example.vn008xw.carbeat.data.movie.MovieRepository;
+import com.example.vn008xw.carbeat.data.repository.MovieRepository;
 import com.example.vn008xw.carbeat.data.vo.AbsentLiveData;
-import com.example.vn008xw.carbeat.data.vo.Movie;
 import com.example.vn008xw.carbeat.data.vo.Resource;
 import com.example.vn008xw.carbeat.data.vo.SearchResult;
-import com.example.vn008xw.carbeat.di.ApplicationScope;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,10 +23,13 @@ public class MoviesViewModel extends ViewModel implements MoviesViewModelContrac
   final MutableLiveData<Integer> offset = new MutableLiveData<>();
   @VisibleForTesting
   final LiveData<Resource<SearchResult>> searchResults;
+  @VisibleForTesting
+  final MovieRepository movieRepository;
 
   @SuppressWarnings("unchecked")
   @Inject
   public MoviesViewModel(MovieRepository movieRepository) {
+    this.movieRepository = movieRepository;
     searchResults = Transformations.switchMap(offset,
             integer -> {
       if (integer == null) {
@@ -52,6 +50,7 @@ public class MoviesViewModel extends ViewModel implements MoviesViewModelContrac
 
   @Override
   public void refreshAndReload() {
+    movieRepository.setRefresh();
     offset.postValue(0);
   }
 }

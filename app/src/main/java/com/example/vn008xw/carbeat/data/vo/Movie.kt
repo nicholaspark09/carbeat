@@ -29,8 +29,6 @@ data class Movie constructor(
     val voteAverage: Float,
     @SerializedName("poster_path")
     val posterPath: String,
-    @SerializedName("genre_ids")
-    val genres: String,
     @SerializedName("release_date")
     val releaseDate: String
 )

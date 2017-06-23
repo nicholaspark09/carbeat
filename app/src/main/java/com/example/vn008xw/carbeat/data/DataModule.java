@@ -11,7 +11,6 @@ import com.example.vn008xw.carbeat.BuildConfig;
 import com.example.vn008xw.carbeat.data.api.MovieService;
 import com.example.vn008xw.carbeat.data.db.MovieDao;
 import com.example.vn008xw.carbeat.data.db.MovieDb;
-import com.example.vn008xw.carbeat.data.movie.MovieRepository;
 import com.example.vn008xw.carbeat.di.ApplicationScope;
 import com.example.vn008xw.carbeat.utils.DaggerUtils;
 import com.example.vn008xw.carbeat.utils.LiveDataCallAdapterFactory;
@@ -19,8 +18,6 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
