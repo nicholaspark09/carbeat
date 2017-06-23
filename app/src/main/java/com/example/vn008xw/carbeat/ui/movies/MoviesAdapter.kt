@@ -15,24 +15,20 @@ typealias MovieRowViewHolder = BindingViewHolder<ListItemMovieBinding>
 
 class MoviesAdapter internal constructor(private val items: List<Movie>) : RecyclerView.Adapter <MovieRowViewHolder>() {
 
-    fun addMovie(movie: Movie) {
-        items.plus(movie)
-    }
-
-    fun addMovies(movies: List<Movie>) {
+    open fun addMovies(movies: List<Movie>) {
         items.plus(movies)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        BindingViewHolder(ListItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        MovieRowViewHolder(ListItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: BindingViewHolder<ListItemMovieBinding>, position: Int) {
         holder.viewDataBinding.apply {
             title = items[position].title
-            image = items[position].poster
+            image = items[position].posterPath
             executePendingBindings()
         }
     }

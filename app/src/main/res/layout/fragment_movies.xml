@@ -8,16 +8,29 @@
 
         <variable name="loading" type="boolean"/>
     </data>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="LinearLayoutManager"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <Button
+            android:id="@+id/refresh_button"
+            android:text="@string/refresh"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layoutManager="LinearLayoutManager"/>
+            android:layout_gravity="bottom|center"/>
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

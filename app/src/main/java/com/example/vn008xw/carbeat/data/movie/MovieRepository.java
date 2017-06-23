@@ -1,42 +1,40 @@
 package com.example.vn008xw.carbeat.data.movie;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.example.vn008xw.carbeat.AppExecutors;
+import com.example.vn008xw.carbeat.BuildConfig;
 import com.example.vn008xw.carbeat.data.api.MovieService;
-import com.example.vn008xw.carbeat.data.db.MovieDao;
-import com.example.vn008xw.carbeat.data.db.MovieDb;
 import com.example.vn008xw.carbeat.data.vo.ApiResponse;
 import com.example.vn008xw.carbeat.data.vo.Movie;
-import com.example.vn008xw.carbeat.data.vo.NetworkBoundResource;
 import com.example.vn008xw.carbeat.data.vo.Resource;
+import com.example.vn008xw.carbeat.data.vo.SearchResult;
 import com.example.vn008xw.carbeat.di.ApplicationScope;
 import com.example.vn008xw.carbeat.utils.RateLimiter;
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import static com.example.vn008xw.carbeat.utils.QueryUtilKt.addToMap;
+import okhttp3.Response;
 
 /**
- * Created by vn008xw on 6/14/17.
+ * Repository that handles movie objects
  */
 @ApplicationScope
 public class MovieRepository {
 
-  @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-  final MovieDb movieDb;
+  @NonNull private static final String TAG = MovieRepository.class.getSimpleName();
 
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-  final MovieDao movieDao;
+  final RxSharedPreferences rxSharedPreferences;
 
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
   final MovieService movieService;
@@ -44,52 +42,54 @@ public class MovieRepository {
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
   final AppExecutors appExecutors;
 
-  private RateLimiter<String> moviesListRateLimit = new RateLimiter<>(30, TimeUnit.MINUTES);
+  Map<Integer, SearchResult> cache;
 
-  HashMap<String, String> queryMap;
+
+  private RateLimiter<String> moviesListRateLimit = new RateLimiter<>(30, TimeUnit.MINUTES);
 
   @Inject
   public MovieRepository(AppExecutors appExecutors,
-                         MovieDao movieDao,
-                         MovieService movieService,
-                         MovieDb movieDb,
-                         @Named("CredentialsMap") HashMap<String, String> queryMap) {
+                         RxSharedPreferences rxSharedPreferences,
+                         MovieService movieService) {
     this.appExecutors = appExecutors;
-    this.movieDao = movieDao;
-    this.movieDb = movieDb;
+    this.rxSharedPreferences = rxSharedPreferences;
     this.movieService = movieService;
-    this.queryMap = queryMap;
   }
 
-  public LiveData<Resource<List<Movie>>> loadMovies(@NonNull int offset, @NonNull String year) {
+  public LiveData<Resource<SearchResult>> searchMovies(@NonNull int offset, @NonNull String year) {
+    final MediatorLiveData<Resource<SearchResult>> result = new MediatorLiveData<>();
+    if (cache == null) {
+      cache = new LinkedHashMap<>();
+    }
+      result.postValue(Resource.loading(null));
+      appExecutors.networkIO().execute(()-> {
+        Log.d(TAG, "Making the call on the network thread");
+        LiveData<ApiResponse<SearchResult>> apiResponse = createNetworkCall(year);
+        appExecutors.mainThread().execute(() -> {
+          result.addSource(apiResponse, data -> {
+            Log.d(TAG, "The data was: " + data.toString());
+            result.removeSource(apiResponse);
+            Log.d(TAG, "The call came back");
+            if (data.isSuccessful()) {
+              Log.d(TAG, "The call was successful");
+              result.postValue(Resource.success(processResponse(data)));
+            } else {
 
-    return new NetworkBoundResource<List<Movie>, List<Movie>>(appExecutors) {
+              Log.d(TAG, "The call wasn't a success");
+              result.postValue(Resource.error(data.getErrorMessage(), processResponse(data)));
+            }
+          });
+        });
+      });
 
-      @Override
-      protected void saveCallResult(@NonNull List<Movie> item) {
-        movieDao.insertMovies(item);
-      }
+    return result;
+  }
 
-      @Override
-      protected boolean shouldFetch(@Nullable List<Movie> data) {
-        Log.d(MovieRepository.class.getSimpleName(), "Checking if we should fetch");
-        return data == null || data.isEmpty();
-      }
+  protected SearchResult processResponse(ApiResponse<SearchResult> response) {
+    return response.getBody();
+  }
 
-      @NonNull
-      @Override
-      protected LiveData<List<Movie>> loadFromDb() {
-        return movieDao.loadMoviesByYear(year, offset);
-      }
-
-      @NonNull
-      @Override
-      protected LiveData<ApiResponse<List<Movie>>> createCall() {
-        Log.d("Repository", "Trying to call the movies from the service");
-        HashMap<String, String> map = addToMap(queryMap, "y", year);
-        Log.d(MovieRepository.class.getSimpleName(), "The Map is: " + map.toString());
-        return movieService.query(map);
-      }
-    }.asLiveData();
+  public LiveData<ApiResponse<SearchResult>> createNetworkCall(String year) {
+      return movieService.discoverByYear(BuildConfig.API_KEY, year);
   }
 }

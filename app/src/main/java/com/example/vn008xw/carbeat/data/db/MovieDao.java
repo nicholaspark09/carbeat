@@ -19,10 +19,6 @@ public abstract class MovieDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   public abstract void insertMovies(List<Movie> movies);
 
-  @Query("SELECT * FROM movie WHERE year = :year ORDER BY title LIMIT :offset, 10")
-  public abstract LiveData<List<Movie>> loadMoviesByYear(String year,
-                                                         int offset);
-
-  @Query("SELECT * FROM movie WHERE imdbId = :id LIMIT 1")
+  @Query("SELECT * FROM movie WHERE id = :id LIMIT 1")
   public abstract LiveData<Movie> loadMovie(String id);
 }

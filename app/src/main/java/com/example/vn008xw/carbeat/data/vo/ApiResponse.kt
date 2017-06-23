@@ -28,6 +28,7 @@ class ApiResponse<T> {
 
     constructor(response: Response<T>) {
         code = response.code()
+        Log.d("APIResponse", "The code was: " + code);
         if (isSuccessful()) {
             body = response.body()
             errorMessage = null

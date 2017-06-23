@@ -136,12 +136,8 @@ public class DataModule {
 
   @Provides
   @ApplicationScope
-  @Named("CredentialsMap")
-  HashMap<String, String> providesCredentialQueryMap() {
-    HashMap<String, String> original =
-            new HashMap<>();
-    original.put(KEY_API_KEY, BuildConfig.API_KEY);
-    original.put(KEY_API_ID, BuildConfig.API_ID);
-    return DaggerUtils.track(original);
+  @Named("ApiKey")
+  String provideApiKey() {
+    return DaggerUtils.track(BuildConfig.API_KEY);
   }
 }

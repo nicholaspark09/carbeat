@@ -17,8 +17,8 @@ import dagger.Provides;
 /**
  * Created by vn008xw on 6/6/17.
  */
-@Module(includes = {DataModule.class, UiModule.class})
-public final class AppModule {
+@Module(includes = {DataModule.class, ViewModelModule.class})
+class AppModule {
 
     private final CarBeatApp app;
 

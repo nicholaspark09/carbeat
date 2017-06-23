@@ -14,9 +14,5 @@ import dagger.Provides;
 @Module
 public final class UiModule {
 
-  @Provides
-  @ApplicationScope
-  MoviesViewModel provideMoviesViewModule(MovieRepository movieRepository) {
-    return DaggerUtils.track(new MoviesViewModel(movieRepository));
-  }
+
 }
