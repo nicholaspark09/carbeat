@@ -2,32 +2,37 @@ package com.example.vn008xw.carbeat.ui.movies;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vn008xw.carbeat.AppComponent;
-import com.example.vn008xw.carbeat.AppExecutors;
+import com.example.vn008xw.carbeat.MainActivity;
 import com.example.vn008xw.carbeat.base.BaseView;
 import com.example.vn008xw.carbeat.data.vo.Movie;
-import static com.example.vn008xw.carbeat.data.vo.Status.*;
-
 import com.example.vn008xw.carbeat.data.vo.Status;
 import com.example.vn008xw.carbeat.databinding.FragmentMoviesBinding;
+import com.example.vn008xw.carbeat.ui.NavigationController;
 import com.example.vn008xw.carbeat.utils.AutoClearedValue;
 import com.example.vn008xw.carbeat.utils.MoviesUtilKt;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.example.vn008xw.carbeat.BR.movie;
+import static com.example.vn008xw.carbeat.data.vo.Status.ERROR;
+import static com.example.vn008xw.carbeat.data.vo.Status.LOADING;
 
 /**
  * Created by vn008xw on 6/19/17.
@@ -40,13 +45,14 @@ public class MoviesFragment extends BaseView {
     return new MoviesFragment();
   }
 
-  AutoClearedValue<MoviesAdapter> mMoviesAdapter;
+  AutoClearedValue<MoviesListAdapter> mMoviesAdapter;
   AutoClearedValue<FragmentMoviesBinding> binding;
   private MoviesViewModel moviesViewModel;
   @Inject
   ViewModelProvider.Factory viewModelFactory;
   @Inject
-  AppExecutors appExecutors;
+  NavigationController navigationController;
+  RecyclerView.OnScrollListener scrollListener;
 
 
   @Nullable
@@ -60,58 +66,56 @@ public class MoviesFragment extends BaseView {
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-
     moviesViewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
-    moviesViewModel.offset.postValue(0);
-
-    final MoviesAdapter adapter =
-            new MoviesAdapter(appExecutors);
-
+    final MoviesListAdapter adapter = new MoviesListAdapter((movie, imageView)->{
+      moviesViewModel.saveMovie(movie);
+      navigationController.navigateToMovie((MainActivity)getActivity(), movie.getId(), imageView);
+    });
     this.mMoviesAdapter = new AutoClearedValue<>(this, adapter);
     binding.get().recyclerView.setAdapter(adapter);
-    moviesViewModel.getMovies().observe(this, listResource -> {
 
+    moviesViewModel.offset.postValue(1);
+    moviesViewModel.getMovies().observe(this, listResource -> {
 
       if (listResource != null) {
         if (listResource.status == ERROR) {
-
           Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT)
                   .show();
-        }else {
-
+        } else {
           final List<Movie> movies = MoviesUtilKt.extractMovies(listResource);
           this.mMoviesAdapter.get().replace(movies);
         }
         setLoading(listResource.status);
-      }else {
-        this.mMoviesAdapter.get().replace(Collections.emptyList());
       }
     });
     initSwipeListener();
+    initScrollBottom();
   }
+
+
 
   private void initSwipeListener() {
     binding.get().swipeLayout.setOnRefreshListener(() -> {
-      this.mMoviesAdapter.get().replace(Collections.emptyList());
+      this.mMoviesAdapter.get().replace(null);
       moviesViewModel.refreshAndReload();
     });
   }
 
   private void initScrollBottom() {
-    binding.get().recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override
-      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
-      }
-
+    scrollListener = new RecyclerView.OnScrollListener() {
       @Override
       public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        if (mMoviesAdapter.get().getItemCount() > 0) {
-
+        LinearLayoutManager layoutManager = (LinearLayoutManager)
+                recyclerView.getLayoutManager();
+        int lastPosition = layoutManager
+                .findLastVisibleItemPosition();
+        if (lastPosition == mMoviesAdapter.get().getItemCount() - 1) {
+          moviesViewModel.loadMore();
         }
       }
-    });
+    };
+    binding.get().recyclerView.addOnScrollListener(scrollListener);
   }
 
   private void setLoading(Status status) {

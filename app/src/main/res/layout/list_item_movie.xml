@@ -6,9 +6,11 @@
     <data>
         <import type="android.view.View" />
 
+        <variable name="movie" type="com.example.vn008xw.carbeat.data.vo.Movie"/>
         <variable name="title" type="String"/>
         <variable name="imageName" type="String"/>
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +24,7 @@
             android:layout_margin="@dimen/default_gap"
             android:scaleType="centerCrop"
             app:imageUrl="@{imageName}"
+            android:transitionName="@string/list_image_transition"
             tools:src="@drawable/ic_no_image"/>
 
         <TextView
@@ -32,6 +35,5 @@
             android:text="@{title}"
             android:textColor="@android:color/black"
             tools:text="The Movie Title"/>
-
     </RelativeLayout>
 </layout>

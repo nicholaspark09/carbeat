@@ -7,4 +7,13 @@ val basePath = "https://image.tmdb.org/t/p"
 val smallUrl = "/w185/"
 val largeUrl = "/w500/"
 
-inline fun String.getSmallImageUrl() = basePath + smallUrl + this
+class ImageUtil {
+
+    companion object {
+        @JvmStatic
+        fun getLittleImage(posterPath: String?) = posterPath?.getSmallImageUrl()
+    }
+}
+
+fun String.getSmallImageUrl() = basePath + smallUrl + this
+fun String.getLargeImageUrl() = basePath + largeUrl + this

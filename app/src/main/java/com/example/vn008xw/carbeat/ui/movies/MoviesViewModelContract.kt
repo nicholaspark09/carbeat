@@ -10,6 +10,7 @@ import com.example.vn008xw.carbeat.data.vo.SearchResult
  */
 interface MoviesViewModelContract {
 
-    fun getMovies() : LiveData<Resource<SearchResult>>
+    fun loadMore()
+    fun getMovies() : LiveData<Resource<List<SearchResult>>>
     fun refreshAndReload()
 }

@@ -13,5 +13,6 @@ interface MovieService {
 
     @GET("/3/discover/movie")
     fun discoverByYear(@Query("api_key") apiKey: String,
+                       @Query("page") page: Int,
                        @Query("primary_release_year") year: String): LiveData<ApiResponse<SearchResult>>
 }

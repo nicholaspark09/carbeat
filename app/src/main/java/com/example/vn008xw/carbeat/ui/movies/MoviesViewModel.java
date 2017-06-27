@@ -6,11 +6,15 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.example.vn008xw.carbeat.data.repository.MovieRepository;
 import com.example.vn008xw.carbeat.data.vo.AbsentLiveData;
+import com.example.vn008xw.carbeat.data.vo.Movie;
 import com.example.vn008xw.carbeat.data.vo.Resource;
 import com.example.vn008xw.carbeat.data.vo.SearchResult;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,7 +26,7 @@ public class MoviesViewModel extends ViewModel implements MoviesViewModelContrac
   @VisibleForTesting
   final MutableLiveData<Integer> offset = new MutableLiveData<>();
   @VisibleForTesting
-  final LiveData<Resource<SearchResult>> searchResults;
+  final LiveData<Resource<List<SearchResult>>> searchResults;
   @VisibleForTesting
   final MovieRepository movieRepository;
 
@@ -35,22 +39,27 @@ public class MoviesViewModel extends ViewModel implements MoviesViewModelContrac
       if (integer == null) {
         return AbsentLiveData.create();
       }
-      return  movieRepository.searchMovies(integer, "2017");
+      return  movieRepository.loadMovies(integer, "2017");
     });
   }
 
-  public LiveData<Resource<SearchResult>> getMovies() {
+  public LiveData<Resource<List<SearchResult>>> getMovies() {
     return searchResults;
-  }
-
-  public void setOffset(@NonNull int index) {
-    if (offset.getValue() == index) return;
-    offset.setValue(index);
   }
 
   @Override
   public void refreshAndReload() {
     movieRepository.setRefresh();
-    offset.postValue(0);
+    offset.postValue(1);
+  }
+
+  public void saveMovie(@NonNull Movie movie) {
+    movieRepository.saveMovie(movie);
+  }
+
+  @Override
+  public void loadMore() {
+    Log.d(MoviesViewModel.class.getSimpleName(), "The offset is: " + offset.getValue());
+    offset.postValue(offset.getValue()+1);
   }
 }

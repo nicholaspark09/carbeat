@@ -15,6 +15,8 @@ data class Movie constructor(
     val originalTitle: String,
     @SerializedName("original_language")
     val originalLanguage: String,
+    @SerializedName("overview")
+    val overview: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("backdrop_path")
