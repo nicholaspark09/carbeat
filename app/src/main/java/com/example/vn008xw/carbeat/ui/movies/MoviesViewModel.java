@@ -59,7 +59,6 @@ public class MoviesViewModel extends ViewModel implements MoviesViewModelContrac
 
   @Override
   public void loadMore() {
-    Log.d(MoviesViewModel.class.getSimpleName(), "The offset is: " + offset.getValue());
     offset.postValue(offset.getValue()+1);
   }
 }

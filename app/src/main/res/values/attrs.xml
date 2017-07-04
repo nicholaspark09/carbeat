@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MovieCardView">
+        <attr name="flingable" format="boolean"/>
+        <attr name="moveable" format="boolean"/>
+        <attr name="peekable" format="boolean"/>
+        <attr name="title" format="string"/>
+        <attr name="description" format="string"/>
+    </declare-styleable>
+</resources>

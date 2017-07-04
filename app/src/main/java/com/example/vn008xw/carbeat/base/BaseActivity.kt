@@ -1,5 +1,6 @@
 package com.example.vn008xw.carbeat.base
 
+import android.arch.lifecycle.LifecycleActivity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.example.vn008xw.carbeat.AppComponent

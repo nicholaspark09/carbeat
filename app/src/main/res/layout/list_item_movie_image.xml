@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="imageUrl" type="String"/>
+        <variable name="poster" type="com.example.vn008xw.carbeat.data.vo.Poster"/>
+        <variable name="loading" type="Boolean"/>
+        <variable name="width" type="String"/>
+        <variable name="height" type="String"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@android:color/white"
+        android:elevation="@dimen/default_gap"
+        tools:layout_height="150dp"
+        tools:layout_width="300dp">
+
+        <ImageView
+            android:id="@+id/poster_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/margin_default"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{imageUrl}"
+            tools:layout_height="140dp"
+            tools:layout_width="280dp"/>
+
+    </android.support.v7.widget.CardView>
+</layout>

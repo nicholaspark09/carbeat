@@ -8,8 +8,11 @@ import android.support.v4.app.FragmentManager;
  */
 
 public class AutoClearedValue<T> {
+
   private T value;
+
   public AutoClearedValue(Fragment fragment, T value) {
+
     FragmentManager fragmentManager = fragment.getFragmentManager();
     fragmentManager.registerFragmentLifecycleCallbacks(
             new FragmentManager.FragmentLifecycleCallbacks() {
@@ -19,6 +22,7 @@ public class AutoClearedValue<T> {
                 fragmentManager.unregisterFragmentLifecycleCallbacks(this);
               }
             },false);
+
     this.value = value;
   }
 

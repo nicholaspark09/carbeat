@@ -1,5 +1,9 @@
 package com.example.vn008xw.carbeat.utils
 
+import com.example.vn008xw.carbeat.data.vo.ImageResult
+import com.example.vn008xw.carbeat.data.vo.Poster
+import com.example.vn008xw.carbeat.data.vo.Resource
+
 /**
  * Created by vn008xw on 6/23/17.
  */

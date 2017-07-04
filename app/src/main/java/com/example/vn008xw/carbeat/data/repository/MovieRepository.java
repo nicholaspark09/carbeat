@@ -36,9 +36,6 @@ public class MovieRepository {
   @NonNull private static final String TAG = MovieRepository.class.getSimpleName();
 
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-  final RxSharedPreferences rxSharedPreferences;
-
-  @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
   final MovieService movieService;
 
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -63,7 +60,6 @@ public class MovieRepository {
                          RxSharedPreferences rxSharedPreferences,
                          MovieService movieService) {
     this.appExecutors = appExecutors;
-    this.rxSharedPreferences = rxSharedPreferences;
     this.movieService = movieService;
   }
 

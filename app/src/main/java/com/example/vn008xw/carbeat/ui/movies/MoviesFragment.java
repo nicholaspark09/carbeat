@@ -2,25 +2,24 @@ package com.example.vn008xw.carbeat.ui.movies;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vn008xw.carbeat.AppComponent;
 import com.example.vn008xw.carbeat.MainActivity;
 import com.example.vn008xw.carbeat.base.BaseView;
 import com.example.vn008xw.carbeat.data.vo.Movie;
+import com.example.vn008xw.carbeat.data.vo.Poster;
 import com.example.vn008xw.carbeat.data.vo.Status;
 import com.example.vn008xw.carbeat.databinding.FragmentMoviesBinding;
 import com.example.vn008xw.carbeat.ui.NavigationController;
+import com.example.vn008xw.carbeat.ui.movie.MovieImageListAdapter;
 import com.example.vn008xw.carbeat.utils.AutoClearedValue;
 import com.example.vn008xw.carbeat.utils.MoviesUtilKt;
 
@@ -29,10 +28,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.example.vn008xw.carbeat.BR.movie;
-import static com.example.vn008xw.carbeat.data.vo.Status.ERROR;
-import static com.example.vn008xw.carbeat.data.vo.Status.LOADING;
 
 /**
  * Created by vn008xw on 6/19/17.
@@ -78,7 +73,7 @@ public class MoviesFragment extends BaseView {
     moviesViewModel.getMovies().observe(this, listResource -> {
 
       if (listResource != null) {
-        if (listResource.status == ERROR) {
+        if (listResource.status == Status.ERROR) {
           Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT)
                   .show();
         } else {
@@ -119,7 +114,7 @@ public class MoviesFragment extends BaseView {
   }
 
   private void setLoading(Status status) {
-    final boolean isLoading = status == LOADING ? true : false;
+    final boolean isLoading = status == Status.LOADING ? true : false;
       binding.get().swipeLayout.setRefreshing(isLoading);
       binding.get().swipeLayout.setEnabled(!isLoading);
       binding.get().setLoading(isLoading);
