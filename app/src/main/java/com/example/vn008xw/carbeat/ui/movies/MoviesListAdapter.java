@@ -37,7 +37,6 @@ public class MoviesListAdapter extends DataBoundAdapter<Movie, ListItemMovieBind
   @Override
   protected void bind(ListItemMovieBinding binding, Movie item) {
     binding.setMovie(item);
-    binding.setTitle(item.getTitle());
     if (ImageUtil.getLittleImage(item.getPosterPath()) != null)
       binding.setImageName(ImageUtil.getLittleImage(item.getPosterPath()));
   }

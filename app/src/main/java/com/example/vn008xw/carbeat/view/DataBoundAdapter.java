@@ -18,7 +18,7 @@ import java.util.List;
 public abstract class DataBoundAdapter<T, V extends ViewDataBinding> extends RecyclerView.Adapter<DataBoundViewHolder<V>> {
 
   @Nullable
-  private List<T> items;
+  protected List<T> items;
 
   private int dataVersion = 0;
 

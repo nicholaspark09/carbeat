@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">CarBeat</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_product_details">ProductDetailsActivity</string>
     <string name="refresh">Refresh</string>
     <string name="list_image_transition">List Transition</string>
+    <string name="movies_title">Movies</string>
+
+    <!-- Nav Drawer Menu -->
+    <string name="nav_menu_home">Home</string>
+    <string name="nav_menu_favorites">Favorites</string>
+    <string name="nav_menu_posters">Posters</string>
+    <string name="nav_menu_account">Account</string>
+    <string name="nav_open">Open navigation drawer</string>
+    <string name="nav_close">Close navigation drawer</string>
 </resources>

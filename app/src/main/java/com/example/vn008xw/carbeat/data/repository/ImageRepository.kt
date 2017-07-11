@@ -12,7 +12,7 @@ import com.example.vn008xw.carbeat.di.ApplicationScope
 import javax.inject.Inject
 
 @ApplicationScope
-class ImageRepository @Inject constructor(private val movieService: MovieService,
+open class ImageRepository @Inject constructor(private val movieService: MovieService,
                                           private val appExecutors: AppExecutors) {
   var movieId: Int? = null
   var imageResult: ImageResult? = null

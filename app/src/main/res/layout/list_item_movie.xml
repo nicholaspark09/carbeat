@@ -7,7 +7,6 @@
         <import type="android.view.View" />
 
         <variable name="movie" type="com.example.vn008xw.carbeat.data.vo.Movie"/>
-        <variable name="title" type="String"/>
         <variable name="imageName" type="String"/>
     </data>
 
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/image_view"
-            android:text="@{title}"
+            android:text="@{movie.title}"
             android:textColor="@android:color/black"
             tools:text="The Movie Title"/>
     </RelativeLayout>

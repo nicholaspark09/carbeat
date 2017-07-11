@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.example.vn008xw.carbeat.AppExecutors;
 import com.example.vn008xw.carbeat.data.api.MovieService;
@@ -44,12 +45,18 @@ public class FavoriteMovieRepository {
     this.favoriteMovieDao = favoriteMovieDao;
   }
 
+  public void saveFavoriteMovie(@NonNull FavoriteMovie favoriteMovie) {
+      appExecutors.diskIO().execute(()->{
+        Long dbSource = favoriteMovieDao.insert(favoriteMovie);
+      });
+  }
+
   public LiveData<Resource<List<FavoriteMovie>>> loadFavoriteMovies() {
     final MediatorLiveData<Resource<List<FavoriteMovie>>> result = new MediatorLiveData<>();
     final LiveData<List<FavoriteMovie>> localSource = favoriteMovieDao.loadFavoriteMovies();
+    result.setValue(Resource.loading(null));
     appExecutors.mainThread().execute(() -> {
       result.addSource(localSource, data -> {
-        result.removeSource(localSource);
         if (data == null) {
           result.setValue(Resource.error("No favorites", null));
         } else {
@@ -60,19 +67,22 @@ public class FavoriteMovieRepository {
     return result;
   }
 
-  public LiveData<Resource<Movie>> loadFavoriteMovie(int id) {
+  public LiveData<Resource<FavoriteMovie>> loadFavoriteMovie(int id) {
     final LiveData<FavoriteMovie> localSource = favoriteMovieDao.loadMovie(id);
-    final MediatorLiveData<Resource<Movie>> result = new MediatorLiveData<>();
+    final MediatorLiveData<Resource<FavoriteMovie>> result = new MediatorLiveData<>();
     appExecutors.mainThread().execute(() -> {
       result.addSource(localSource, data -> {
         result.removeSource(localSource);
         if (data == null) {
-          result.setValue(Resource.error("Couldn't find your favorite movie", null));
+          result.setValue(Resource.error("No movie found", null));
         } else {
-          result.setValue(Resource.success(data.getMovie()));
+          Log.d("FavMovRepo", "The movie has already been saved");
+          result.setValue(Resource.success(data));
         }
       });
     });
     return result;
   }
+
+
 }

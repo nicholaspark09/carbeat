@@ -9,6 +9,7 @@
 
         <variable name="loading" type="boolean"/>
         <variable name="imageUrl" type="String"/>
+        <variable name="saved" type="boolean"/>
         <variable name="movie"
                   type="com.example.vn008xw.carbeat.data.vo.Movie"/>
     </data>
@@ -22,7 +23,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="390dp"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 

@@ -6,6 +6,7 @@ import com.example.vn008xw.carbeat.MainActivity
 import com.example.vn008xw.carbeat.R
 import com.example.vn008xw.carbeat.base.BaseActivity
 import com.example.vn008xw.carbeat.di.ApplicationScope
+import com.example.vn008xw.carbeat.ui.favorites.FavoritesFragment
 import com.example.vn008xw.carbeat.ui.movie.MovieActivity
 import com.example.vn008xw.carbeat.ui.movies.MoviesFragment
 import javax.inject.Inject
@@ -16,23 +17,36 @@ import javax.inject.Inject
 @ApplicationScope
 class NavigationController @Inject constructor() {
 
-    val containerId: Int
+  val containerId: Int
+  var previousScreen: String? = null
 
-    init {
-        containerId = R.id.container
-    }
+  init {
+    containerId = R.id.container
+  }
 
-    fun navigateToMovies(activity: MainActivity) {
-        val moviesFragment = MoviesFragment.newInstance()
-        activity.supportFragmentManager
-                .beginTransaction()
-                .replace(containerId, moviesFragment)
-                .commitAllowingStateLoss()
+  fun navigateToMovies(activity: MainActivity) {
+    val screenName = MoviesFragment::class.java.simpleName.toString()
+    if (previousScreen == null || !previousScreen.equals(screenName, true)) {
+      val moviesFragment = MoviesFragment.newInstance()
+      activity.supportFragmentManager
+          .beginTransaction()
+          .replace(containerId, moviesFragment)
+          .commitAllowingStateLoss()
+      previousScreen = screenName
     }
+  }
 
-    fun navigateToMovie(activity: BaseActivity, movieId: Int, imageView: ImageView) {
-        val intent = Intent(activity, MovieActivity::class.java)
-        intent.putExtra(MovieActivity.MOVIE_ID, movieId)
-        activity.startActivity(intent)
-    }
+  fun navigateToFavorites(activity: MainActivity) {
+    val favorites = FavoritesFragment.newInstance()
+    activity.supportFragmentManager
+        .beginTransaction()
+        .replace(containerId, favorites)
+        .commitAllowingStateLoss()
+  }
+
+  fun navigateToMovie(activity: BaseActivity, movieId: Int, imageView: ImageView?) {
+    val intent = Intent(activity, MovieActivity::class.java)
+    intent.putExtra(MovieActivity.MOVIE_ID, movieId)
+    activity.startActivity(intent)
+  }
 }

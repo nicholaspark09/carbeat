@@ -15,15 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.vn008xw.carbeat.AppComponent
-import com.example.vn008xw.carbeat.MainActivity
+import com.example.vn008xw.carbeat.R
 import com.example.vn008xw.carbeat.base.BaseView
 import com.example.vn008xw.carbeat.data.vo.Poster
 import com.example.vn008xw.carbeat.data.vo.Status.ERROR
 import com.example.vn008xw.carbeat.data.vo.Status.SUCCESS
 import com.example.vn008xw.carbeat.databinding.FragmentMovieBinding
-import com.example.vn008xw.carbeat.ui.movie.MovieImageListAdapter.MovieImageCallback
-import com.example.vn008xw.carbeat.ui.movies.MoviesListAdapter
 import com.example.vn008xw.carbeat.utils.AutoClearedValue
+import com.example.vn008xw.carbeat.utils.getDrawable
 import com.example.vn008xw.carbeat.utils.getLargeImageUrl
 import java.util.*
 import javax.inject.Inject
@@ -56,6 +55,7 @@ class MovieFragment : BaseView() {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                             savedInstanceState: Bundle?) =
       FragmentMovieBinding.inflate(inflater, container, false).apply {
+        saved = false
         binding = AutoClearedValue(this@MovieFragment, this)
         setHasOptionsMenu(true)
       }.root
@@ -70,6 +70,8 @@ class MovieFragment : BaseView() {
           Log.d("MovieFragment", "You got a movie back: " + it?.data?.title)
           binding.get()?.movie = it.data
           binding.get()?.imageUrl = it.data?.posterPath?.getLargeImageUrl()
+          if (it.data != null)
+            viewModel.setFind(it.data.id, true)
         }
         ERROR -> Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
       }
@@ -95,9 +97,25 @@ class MovieFragment : BaseView() {
         ERROR -> Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
       }
     })
-    viewModel.movieId.postValue(movieId)
+
+    viewModel.getFavoriteMovie().observe(this@MovieFragment, Observer {
+      when (it?.status) {
+        ERROR -> {
+          binding.get().fab.setImageDrawable(getDrawable(context, R.drawable.ic_star_black))
+          binding.get().saved = false
+        }
+        SUCCESS -> {
+          Log.d(TAG, "You have already saved it");
+          binding.get().fab.setImageDrawable(getDrawable(context, R.drawable.ic_star_white))
+          binding.get().saved = true
+        }
+      }
+    })
+
+    viewModel.setMovieId(movieId!!)
     setupToolbar()
     setupBottomSheetListener()
+    setupListener()
   }
 
   fun setupToolbar() {
@@ -149,6 +167,19 @@ class MovieFragment : BaseView() {
     }
   }
 
+  fun setupListener() {
+    binding.get().fab.setOnClickListener {
+      Log.d(TAG, "The user clicked favorite on the button")
+      if (binding.get().saved) {
+        // delete it
+      } else {
+        // save it
+        if (binding.get().movie != null)
+          viewModel.saveMovie(binding.get().movie!!)
+      }
+    }
+  }
+
   companion object {
 
     private val MOVIE_ID = "movieId"
@@ -162,4 +193,4 @@ class MovieFragment : BaseView() {
       return fragment
     }
   }
-}// Required empty public constructor
+}

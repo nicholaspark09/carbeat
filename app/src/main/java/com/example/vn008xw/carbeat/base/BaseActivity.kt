@@ -1,6 +1,5 @@
 package com.example.vn008xw.carbeat.base
 
-import android.arch.lifecycle.LifecycleActivity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.example.vn008xw.carbeat.AppComponent
@@ -11,14 +10,14 @@ import com.example.vn008xw.carbeat.di.DaggerService
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-    var injected: Boolean = false
+  var injected: Boolean = false
 
-    abstract fun inject(appComponent: AppComponent)
+  abstract fun inject(appComponent: AppComponent)
 
-    fun onCreateView(context: Context) {
-        if (!injected) {
-            inject(DaggerService.getAppComponent(context))
-            injected = false
-        }
+  fun onCreateView(context: Context) {
+    if (!injected) {
+      inject(DaggerService.getAppComponent(context))
+      injected = false
     }
+  }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.vn008xw.carbeat.AppComponent;
 import com.example.vn008xw.carbeat.MainActivity;
+import com.example.vn008xw.carbeat.R;
 import com.example.vn008xw.carbeat.base.BaseView;
 import com.example.vn008xw.carbeat.data.vo.Movie;
 import com.example.vn008xw.carbeat.data.vo.Poster;
