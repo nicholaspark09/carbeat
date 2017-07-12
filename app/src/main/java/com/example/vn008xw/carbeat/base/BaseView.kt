@@ -3,7 +3,9 @@ package com.example.vn008xw.carbeat.base
 import android.arch.lifecycle.LifecycleFragment
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.example.vn008xw.carbeat.AppComponent
+import com.example.vn008xw.carbeat.BuildConfig
 import com.example.vn008xw.carbeat.di.DaggerService
 
 /**
@@ -18,7 +20,7 @@ abstract class BaseView : LifecycleFragment() {
   override fun onAttach(context: Context?) {
     super.onAttach(context)
     if (!injected) {
-      inject(DaggerService.getAppComponent(context))
+      //inject(DaggerService.getAppComponent(context))
       injected = false
     }
   }

@@ -109,7 +109,7 @@ public class MovieRepository {
 
   public LiveData<Resource<Movie>> loadMovie(@NonNull int movieId) {
     final MediatorLiveData<Resource<Movie>> result = new MediatorLiveData<>();
-    if (cachedMovie != null) {
+    if (cachedMovie != null && cachedMovie.getId() == movieId) {
       result.setValue(Resource.success(cachedMovie));
     } else {
       // The locally cached items are not sorted by id so...dig

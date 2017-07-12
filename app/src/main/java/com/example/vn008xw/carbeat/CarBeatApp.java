@@ -46,4 +46,8 @@ public class CarBeatApp extends MultiDexApplication {
         appComponent = CarBeatComponent.Initializer.init(this);
         appComponent.inject(this);
     }
+
+    public AppComponent component() {
+        return appComponent;
+    }
 }

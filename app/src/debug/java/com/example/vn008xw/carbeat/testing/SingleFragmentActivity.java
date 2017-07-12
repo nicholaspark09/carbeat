@@ -15,14 +15,29 @@ import com.example.vn008xw.carbeat.R;
 
 public class SingleFragmentActivity extends AppCompatActivity {
 
+    private static final String TAG = "TEST";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final FrameLayout content = new FrameLayout(this);
+        content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        content.setId(R.id.container);
+        setContentView(content);
     }
 
     public void setFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.container, fragment, TAG)
+                .commit();
+    }
 
+    public void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 }

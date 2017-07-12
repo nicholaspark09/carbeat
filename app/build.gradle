@@ -20,7 +20,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.vn008xw.carbeat.util."
         buildConfigField 'String', 'ENDPOINT', apiProps['ENDPOINT']
         buildConfigField 'String', 'API_KEY', apiProps['API_KEY']
         buildConfigField 'String', 'API_ID', apiProps['API_ID']
@@ -40,9 +40,6 @@ android {
     lintOptions {
         lintConfig rootProject.file('lint.xml')
     }
-    kapt {
-        generateStubs = true
-    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -52,6 +49,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espresso_version", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 

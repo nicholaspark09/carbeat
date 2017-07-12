@@ -1,6 +1,7 @@
 package com.example.vn008xw.carbeat.ui
 
 import android.content.Intent
+import android.util.Log
 import android.widget.ImageView
 import com.example.vn008xw.carbeat.MainActivity
 import com.example.vn008xw.carbeat.R
@@ -37,11 +38,13 @@ class NavigationController @Inject constructor() {
   }
 
   fun navigateToFavorites(activity: MainActivity) {
+    val screenName = FavoritesFragment::class.java.simpleName.toString()
     val favorites = FavoritesFragment.newInstance()
     activity.supportFragmentManager
         .beginTransaction()
         .replace(containerId, favorites)
         .commitAllowingStateLoss()
+    previousScreen = screenName
   }
 
   fun navigateToMovie(activity: BaseActivity, movieId: Int, imageView: ImageView?) {
