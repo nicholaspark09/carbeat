@@ -57,7 +57,6 @@ public class MovieRepository {
 
   @Inject
   public MovieRepository(AppExecutors appExecutors,
-                         RxSharedPreferences rxSharedPreferences,
                          MovieService movieService) {
     this.appExecutors = appExecutors;
     this.movieService = movieService;
@@ -109,6 +108,7 @@ public class MovieRepository {
 
   public LiveData<Resource<Movie>> loadMovie(@NonNull int movieId) {
     final MediatorLiveData<Resource<Movie>> result = new MediatorLiveData<>();
+    result.setValue(Resource.loading(null));
     if (cachedMovie != null && cachedMovie.getId() == movieId) {
       result.setValue(Resource.success(cachedMovie));
     } else {
@@ -135,6 +135,11 @@ public class MovieRepository {
       }
     }
     return result;
+  }
+
+  @Nullable
+  public Movie getCachedMovie() {
+    return cachedMovie;
   }
 
   @MainThread

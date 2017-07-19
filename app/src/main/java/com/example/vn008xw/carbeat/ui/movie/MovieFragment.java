@@ -30,8 +30,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
-import view.FragmentDataBindingComponent;
-
 import static com.example.vn008xw.carbeat.utils.DrawableUtilCompat.getDrawable;
 
 /**
@@ -52,8 +50,6 @@ public class MovieFragment extends BaseView {
   @VisibleForTesting
   MovieViewModel viewModel;
 
-  @VisibleForTesting
-  DataBindingComponent bindingComponent = new FragmentDataBindingComponent(this);
   private static final String MOVIE_ID = "MOVIE_ID";
 
   @Override
@@ -67,8 +63,7 @@ public class MovieFragment extends BaseView {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    final FragmentMovieBinding mBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false, bindingComponent);
+    final FragmentMovieBinding mBinding = FragmentMovieBinding.inflate(inflater, container, false);
     mBinding.setSaved(false);
     setHasOptionsMenu(true);
     binding = new AutoClearedValue<>(this, mBinding);
@@ -82,17 +77,18 @@ public class MovieFragment extends BaseView {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
     viewModel.getMovie().observe(this, observer -> {
       if (observer.status == Status.SUCCESS) {
-        if (binding.get() != null) {
           binding.get().setMovie(observer.data);
           if (observer.data.getPosterPath() != null) {
             binding.get().setImageUrl(ImageUtilKt.getLargeImageUrl(observer.data.getPosterPath()));
           }
           viewModel.setFind(observer.data.getId(), true);
-        }
+          binding.get().setLoading(false);
       } else if (observer.status == Status.ERROR) {
+        binding.get().setLoading(false);
         Toast.makeText(getContext(), observer.message, Toast.LENGTH_LONG).show();
+      } else if (observer.status == Status.LOADING) {
+        binding.get().setLoading(true);
       }
-      binding.get().setLoading(observer.status != Status.LOADING);
     });
 
     final MovieImageListAdapter imageAdapter = new MovieImageListAdapter(new MovieImageListAdapter.MovieImageCallback() {

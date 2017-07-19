@@ -1,5 +1,7 @@
 package com.example.vn008xw.carbeat;
 
+import com.example.vn008xw.carbeat.ui.cast.CastActivity;
+import com.example.vn008xw.carbeat.ui.cast.CastFragment;
 import com.example.vn008xw.carbeat.ui.favorites.FavoritesFragment;
 import com.example.vn008xw.carbeat.ui.movie.MovieActivity;
 import com.example.vn008xw.carbeat.ui.movie.MovieFragment;
@@ -21,4 +23,8 @@ public interface AppComponent {
   void inject(MovieActivity movieActivity);
 
   void inject(FavoritesFragment favoritesFragment);
+
+  void inject(CastActivity castActivity);
+
+  void inject(CastFragment castFragment);
 }

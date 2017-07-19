@@ -1,17 +1,22 @@
 package com.example.vn008xw.carbeat.ui.movie;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 
 import com.example.vn008xw.carbeat.data.repository.FavoriteMovieRepository;
 import com.example.vn008xw.carbeat.data.repository.ImageRepository;
 import com.example.vn008xw.carbeat.data.repository.MovieRepository;
 import com.example.vn008xw.carbeat.data.vo.FavoriteMovie;
+import com.example.vn008xw.carbeat.data.vo.ImageResult;
 import com.example.vn008xw.carbeat.data.vo.Movie;
+import com.example.vn008xw.carbeat.data.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.ArgumentCaptor;
 
 import java.util.Arrays;
@@ -25,11 +30,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by vn008xw on 7/10/17.
  */
-
+@SuppressWarnings("unchecked")
+@RunWith(JUnit4.class)
 public class MovieViewModelTest {
 
   @Rule
@@ -115,5 +122,37 @@ public class MovieViewModelTest {
     verify(favoriteMovieRepository).saveFavoriteMovie(favoriteMovie);
     verify(favoriteMovieRepository).loadFavoriteMovie(idCaptor.capture());
     assertThat(idCaptor.getValue(), is(2));
+  }
+
+  @Test
+  public void deleteFavoriteMovie() {
+    ArgumentCaptor<Integer> idCaptor = ArgumentCaptor.forClass(Integer.class);
+    final Movie testMovie = new Movie(2, "", "",
+            "", "", "", 1f, 2,
+            false, 1f, "", "");
+    final FavoriteMovie favoriteMovie = new FavoriteMovie(testMovie.getTitle(), testMovie);
+    MutableLiveData<Resource<FavoriteMovie>> foo = new MutableLiveData<>();
+    final Resource<FavoriteMovie> fooValue = Resource.success(favoriteMovie);
+    when(favoriteMovieRepository.loadFavoriteMovie(MOVIE_ID)).thenReturn(foo);
+
+    Observer<Resource<FavoriteMovie>> observer = mock(Observer.class);
+    movieViewModel.favoriteMovie.observeForever(observer);
+
+    movieViewModel.setFind(MOVIE_ID, true);
+
+    foo.setValue(fooValue);
+    verify(observer).onChanged(fooValue);
+
+    movieViewModel.removeMovieFromFavorites();
+    verify(favoriteMovieRepository).deleteFavoriteMovie(fooValue.data);
+  }
+
+  @Test
+  public void loadImages_returnAbsent() {
+    ArgumentCaptor<Integer> idCaptor = ArgumentCaptor.forClass(Integer.class);
+    Observer<Resource<ImageResult>> observer = mock(Observer.class);
+    movieViewModel.images.observeForever(observer);
+    movieViewModel.setMovieId(null);
+    verify(observer).onChanged(null);
   }
 }

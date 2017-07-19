@@ -16,6 +16,7 @@ import com.example.vn008xw.carbeat.di.ApplicationScope;
 import com.example.vn008xw.carbeat.utils.DaggerUtils;
 import com.example.vn008xw.carbeat.utils.LiveDataCallAdapterFactory;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -92,8 +93,16 @@ public class DataModule {
 
   @Provides
   @ApplicationScope
-  OkHttpClient provideOkHttpClient(Application app, HttpLoggingInterceptor httpLoggingInterceptor) {
+  StethoInterceptor provideStethoInterceptor() {
+    return DaggerUtils.track(new StethoInterceptor());
+  }
+
+  @Provides
+  @ApplicationScope
+  OkHttpClient provideOkHttpClient(Application app, HttpLoggingInterceptor httpLoggingInterceptor,
+                                   StethoInterceptor stethoInterceptor) {
     return DaggerUtils.track(createOkHttpClient(app).addInterceptor(httpLoggingInterceptor)
+            .addNetworkInterceptor(stethoInterceptor)
             .build());
   }
 

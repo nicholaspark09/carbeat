@@ -1,10 +1,7 @@
 package com.example.vn008xw.carbeat.data.api
 
 import android.arch.lifecycle.LiveData
-import com.example.vn008xw.carbeat.data.vo.ApiResponse
-import com.example.vn008xw.carbeat.data.vo.ImageResult
-import com.example.vn008xw.carbeat.data.vo.ReviewResult
-import com.example.vn008xw.carbeat.data.vo.SearchResult
+import com.example.vn008xw.carbeat.data.vo.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -26,4 +23,8 @@ interface MovieService {
   @GET("/3/movie/{movieId}/images")
   fun getImages(@Path("movieId") movieId: Int,
                 @Query("api_key") apiKey: String): LiveData<ApiResponse<ImageResult>>
+
+  @GET("/3/movie/{movieId}/credits")
+  fun getCredits(@Path("movieId") movieId: Int,
+                 @Query("api_key") apiKey: String): LiveData<ApiResponse<MovieCastResult>>
 }

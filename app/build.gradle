@@ -20,7 +20,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.example.vn008xw.carbeat.util."
+        testInstrumentationRunner "com.example.vn008xw.carbeat.util.CarBeatTestRunner"
         buildConfigField 'String', 'ENDPOINT', apiProps['ENDPOINT']
         buildConfigField 'String', 'API_KEY', apiProps['API_KEY']
         buildConfigField 'String', 'API_ID', apiProps['API_ID']
@@ -87,11 +87,15 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.2.3'
-    testCompile ("android.arch.core:core-testing:$arch_version", {
+    testCompile("android.arch.core:core-testing:$arch_version", {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
     })
+    androidTestCompile "com.android.support:appcompat-v7:$support_version"
+    androidTestCompile "com.android.support:recyclerview-v7:$support_version"
+    androidTestCompile "com.android.support:support-v4:$support_version"
+    androidTestCompile "com.android.support:design:$support_version"
 
     // Shared Preferences
     compile 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC2'
@@ -108,7 +112,13 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     kapt "android.arch.persistence.room:compiler:$arch_version"
     implementation 'com.android.support:support-v4:25.3.1'
+
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'kotlin-android-extensions'

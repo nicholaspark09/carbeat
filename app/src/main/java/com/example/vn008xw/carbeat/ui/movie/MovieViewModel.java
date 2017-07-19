@@ -6,7 +6,7 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import com.example.vn008xw.carbeat.data.repository.FavoriteMovieRepository;
 import com.example.vn008xw.carbeat.data.repository.ImageRepository;
@@ -94,5 +94,13 @@ public class MovieViewModel extends ViewModel {
     final FavoriteMovie favoriteMovie = new FavoriteMovie(movie.getTitle(), movie);
     favoriteRepository.saveFavoriteMovie(favoriteMovie);
     saved.setValue(Pair.create(movie.getId(), true));
+  }
+
+  void removeMovieFromFavorites() {
+    if (favoriteMovie.getValue() != null && favoriteMovie.getValue().data != null) {
+      favoriteRepository.deleteFavoriteMovie(favoriteMovie.getValue().data);
+    }else {
+      throw new IllegalArgumentException("This movie isn't in your favorites");
+    }
   }
 }

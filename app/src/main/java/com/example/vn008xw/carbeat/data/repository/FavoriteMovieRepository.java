@@ -45,6 +45,12 @@ public class FavoriteMovieRepository {
     this.favoriteMovieDao = favoriteMovieDao;
   }
 
+  public void deleteFavoriteMovie(@NonNull FavoriteMovie favoriteMovie) {
+    appExecutors.diskIO().execute(()->{
+      favoriteMovieDao.deleteMovie(favoriteMovie);
+    });
+  }
+
   public void saveFavoriteMovie(@NonNull FavoriteMovie favoriteMovie) {
       appExecutors.diskIO().execute(()->{
         Long dbSource = favoriteMovieDao.insert(favoriteMovie);

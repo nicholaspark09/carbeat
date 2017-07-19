@@ -10,8 +10,6 @@ import com.example.vn008xw.carbeat.utils.ActivityUtil
 
 class MovieActivity : BaseActivity() {
 
-    private lateinit var viewModel: MovieViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie)

@@ -19,7 +19,7 @@ abstract class BaseView : LifecycleFragment() {
 
   override fun onAttach(context: Context?) {
     super.onAttach(context)
-    if (!injected) {
+    if (!injected && BuildConfig.BUILD_TYPE.equals("debug")) {
       //inject(DaggerService.getAppComponent(context))
       injected = false
     }
