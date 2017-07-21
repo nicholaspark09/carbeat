@@ -93,16 +93,8 @@ public class DataModule {
 
   @Provides
   @ApplicationScope
-  StethoInterceptor provideStethoInterceptor() {
-    return DaggerUtils.track(new StethoInterceptor());
-  }
-
-  @Provides
-  @ApplicationScope
-  OkHttpClient provideOkHttpClient(Application app, HttpLoggingInterceptor httpLoggingInterceptor,
-                                   StethoInterceptor stethoInterceptor) {
+  OkHttpClient provideOkHttpClient(Application app, HttpLoggingInterceptor httpLoggingInterceptor) {
     return DaggerUtils.track(createOkHttpClient(app).addInterceptor(httpLoggingInterceptor)
-            .addNetworkInterceptor(stethoInterceptor)
             .build());
   }
 

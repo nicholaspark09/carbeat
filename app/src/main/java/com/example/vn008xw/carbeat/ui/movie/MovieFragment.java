@@ -2,8 +2,6 @@ package com.example.vn008xw.carbeat.ui.movie;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingComponent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -23,6 +21,7 @@ import com.example.vn008xw.carbeat.base.BaseView;
 import com.example.vn008xw.carbeat.data.vo.Poster;
 import com.example.vn008xw.carbeat.data.vo.Status;
 import com.example.vn008xw.carbeat.databinding.FragmentMovieBinding;
+import com.example.vn008xw.carbeat.ui.cast.CastActivity;
 import com.example.vn008xw.carbeat.utils.AutoClearedValue;
 import com.example.vn008xw.carbeat.utils.ImageUtilKt;
 
@@ -122,6 +121,11 @@ public class MovieFragment extends BaseView {
     viewModel.setMovieId(movieId);
     setupToolbar();
     setupFabListener();
+    setupCastListener();
+  }
+
+  private void setupCastListener() {
+    binding.get().cast.setOnClickListener(v -> startActivity(CastActivity.createIntent(getContext())));
   }
 
   private void setupFabListener() {

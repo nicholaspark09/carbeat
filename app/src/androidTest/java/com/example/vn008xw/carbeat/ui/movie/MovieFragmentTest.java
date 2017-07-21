@@ -11,7 +11,6 @@ import com.example.vn008xw.carbeat.data.vo.ImageResult;
 import com.example.vn008xw.carbeat.data.vo.Movie;
 import com.example.vn008xw.carbeat.data.vo.Resource;
 import com.example.vn008xw.carbeat.testing.SingleFragmentActivity;
-import com.example.vn008xw.carbeat.util.TaskExecutorWithIdlingResourceRule;
 import com.example.vn008xw.carbeat.util.TestUtil;
 import com.example.vn008xw.carbeat.util.ViewMatchers;
 import com.example.vn008xw.carbeat.util.ViewModelUtil;
@@ -45,9 +44,9 @@ public class MovieFragmentTest {
   @Rule
   public ActivityTestRule<SingleFragmentActivity> activityRule =
           new ActivityTestRule<SingleFragmentActivity>(SingleFragmentActivity.class, true, true);
-  @Rule
-  public TaskExecutorWithIdlingResourceRule executorRule =
-          new TaskExecutorWithIdlingResourceRule();
+  //  @Rule
+//  public TaskExecutorWithIdlingResourceRule executorRule =
+//          new TaskExecutorWithIdlingResourceRule();
   private MutableLiveData<Resource<FavoriteMovie>> favoriteMovie = new MutableLiveData<>();
   private MutableLiveData<Resource<Movie>> movie = new MutableLiveData<>();
   private MutableLiveData<Resource<ImageResult>> images = new MutableLiveData<>();

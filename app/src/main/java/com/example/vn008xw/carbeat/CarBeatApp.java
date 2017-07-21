@@ -20,6 +20,8 @@ public class CarBeatApp extends MultiDexApplication {
 
   @Inject
   Application app;
+  @Inject
+  AppExecutors appExecutors;
 
   private AppComponent appComponent;
 
@@ -30,7 +32,6 @@ public class CarBeatApp extends MultiDexApplication {
     if (BuildConfig.DEBUG) {
       setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
       setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-      Stetho.initializeWithDefaults(this);
     }
 
     buildComponentAndInject();

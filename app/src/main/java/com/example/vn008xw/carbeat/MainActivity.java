@@ -40,8 +40,6 @@ public class MainActivity extends BaseActivity {
 
     onCreateView(MainActivity.this);
 
-    navigationController.navigateToMovies(this);
-
     setContentView(R.layout.activity_main);
 
     final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -62,6 +60,7 @@ public class MainActivity extends BaseActivity {
     final NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
     setupDrawerContent(navView);
     setTitle(getString(R.string.nav_menu_home));
+    navigationController.navigateToMovies(this);
   }
 
   private void setupDrawerContent(@NonNull NavigationView navigationView) {

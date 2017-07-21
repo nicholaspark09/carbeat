@@ -1,5 +1,7 @@
 package com.example.vn008xw.carbeat.ui.cast;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -12,8 +14,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class CastActivity extends BaseActivity {
 
-  @NonNull private static final String MOVIE__ID_KEY = "cast:movie_id";
-  @NonNull private int movieId = -1;
+  public static Intent createIntent(@NonNull Context context) {
+    return new Intent(context, CastActivity.class);
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,7 @@ public class CastActivity extends BaseActivity {
   private CastFragment findOrCreate() {
     final CastFragment fragment = (CastFragment) getSupportFragmentManager().findFragmentById(R.id.container);
     if (fragment != null) return fragment;
-    else return CastFragment.Companion.newInstance();
+    else return CastFragment.newInstance();
   }
 
   @Override

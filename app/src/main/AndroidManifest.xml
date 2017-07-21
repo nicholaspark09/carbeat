@@ -33,11 +33,7 @@
         <activity android:name=".testing.SingleFragmentActivity">
         </activity>
         <activity android:name=".ui.movie.MovieActivity"/>
-        <activity
-            android:name=".ui.cast.CastActivity"
-            android:label="@string/title_activity_cast"
-            android:theme="@style/AppTheme">
-        </activity>
+        <activity android:name=".ui.cast.CastActivity"/>
     </application>
 
 </manifest>

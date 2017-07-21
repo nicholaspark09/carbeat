@@ -19,6 +19,7 @@
             app:layoutManager="LinearLayoutManager"/>
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{loading ? View.VISIBLE : View.GONE, default=gone}"

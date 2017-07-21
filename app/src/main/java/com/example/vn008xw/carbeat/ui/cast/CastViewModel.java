@@ -47,12 +47,12 @@ public class CastViewModel extends ViewModel {
                     : castRepository.getMovieCast(id));
   }
 
-  protected void findMovie() {
+  public void findMovie() {
     final Movie movie = movieRepository.getCachedMovie();
     movieId.setValue(movie != null ? movie.getId() : null);
   }
 
-  LiveData<Resource<List<Cast>>> getCast() {
+  public LiveData<Resource<List<Cast>>> getCast() {
     return cast;
   }
 }
