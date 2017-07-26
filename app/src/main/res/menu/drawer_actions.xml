@@ -15,4 +15,9 @@
         android:id="@+id/poster_nav_menu_item"
         android:icon="@drawable/ic_nav_picture"
         android:title="@string/nav_menu_posters"/>
+
+    <item
+        android:id="@+id/account_nav_menu_item"
+        android:icon="@drawable/ic_nav_picture"
+        android:title="@string/nav_menu_account"/>
 </menu>

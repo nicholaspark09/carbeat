@@ -9,7 +9,8 @@ import com.example.vn008xw.carbeat.view.DataBoundAdapter
 
 class CastListAdapter : DataBoundAdapter<Cast, ListItemCastBinding>() {
 
-  override fun createBinding(parent: ViewGroup) = ListItemCastBinding.inflate(LayoutInflater.from(parent.context))
+  override fun createBinding(parent: ViewGroup) =
+      ListItemCastBinding.inflate(LayoutInflater.from(parent.context))
 
   override fun bind(binding: ListItemCastBinding, item: Cast) {
     binding.apply {

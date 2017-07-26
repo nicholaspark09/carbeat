@@ -44,12 +44,16 @@ public abstract class NetworkBoundLocalResource<ResultType, RequestType> {
 
   private void fetchFromNetwork(final LiveData<ResultType> localSource) {
     LiveData<ApiResponse<RequestType>> apiResponse = createCall();
+    Log.d("Networkbound", "Trying to fetch from the network");
     result.addSource(localSource, oldData-> result.setValue(Resource.loading(oldData)));
     result.addSource(apiResponse, newData->{
       result.removeSource(apiResponse);
       result.removeSource(localSource);
 
+      Log.d("Networkbound", "Got data back");
       if (newData.isSuccessful()) {
+
+        Log.d("Networkbound", "Successfully received data from the network");
         appExecutors.diskIO().execute(()->{
 
           saveLocalSource(processResponse(newData));
@@ -65,6 +69,7 @@ public abstract class NetworkBoundLocalResource<ResultType, RequestType> {
 
         });
       }else {
+        Log.d("Networkbound", "Got an error " + newData.getErrorMessage());
         onFetchFailed();
         result.addSource(localSource, data->{
           result.setValue(Resource.error(newData.getErrorMessage(), data));

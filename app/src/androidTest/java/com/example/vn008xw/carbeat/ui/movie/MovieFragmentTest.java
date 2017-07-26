@@ -128,4 +128,16 @@ public class MovieFragmentTest {
     onView(withId(R.id.fab)).perform(click());
     verify(viewModel).saveMovie(movie);
   }
+
+  @Test
+  public void clickFab_removeMovie() throws InterruptedException {
+    final Movie movie = TestUtil.createMovie(MOVIE_ID, TITLE, DESC);
+    this.movie.postValue(Resource.success(movie));
+
+    final FavoriteMovie favoriteMovie = TestUtil.createFavoriteMovie(movie);
+    this.favoriteMovie.postValue(Resource.success(favoriteMovie));
+    onView(withId(R.id.fab)).check(matches(withDrawable(R.drawable.ic_star_white)));
+    onView(withId(R.id.fab)).perform(click());
+    verify(viewModel).removeMovieFromFavorites();
+  }
 }

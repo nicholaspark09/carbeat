@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.example.vn008xw.carbeat.AppExecutors;
 import com.example.vn008xw.carbeat.BuildConfig;
@@ -56,23 +57,25 @@ public class CastRepository implements CastDataSourceContract {
 
   @Override
   public LiveData<Resource<List<Cast>>> getMovieCast(@NonNull int theMovieId) {
-
     return new NetworkBoundLocalResource<List<Cast>, MovieCastResult>(appExecutors) {
-
       @Override
       protected void saveLocalSource(@NonNull MovieCastResult item) {
         final Map<Integer, MovieCastResult> localCache;
         localCache = cache.getValue() != null ? cache.getValue() : new LinkedHashMap<>();
         localCache.put(theMovieId, item);
         appExecutors.mainThread().execute(()-> cache.setValue(localCache));
+        cacheIsDirty = false;
       }
 
       @NonNull
       @Override
       protected LiveData<List<Cast>> loadFromLocalSource() {
+        Log.d("CastRepo", "Trying to load from local source");
         final MutableLiveData<List<Cast>> cast = new MutableLiveData<>();
         if (cache.getValue() != null && cache.getValue().containsKey(theMovieId)) {
           cast.setValue(cache.getValue().get(theMovieId).getCast());
+        }else {
+          cast.setValue(null);
         }
         return cast;
       }

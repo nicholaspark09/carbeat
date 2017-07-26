@@ -52,4 +52,8 @@ class NavigationController @Inject constructor() {
     intent.putExtra(MovieActivity.MOVIE_ID, movieId)
     activity.startActivity(intent)
   }
+
+  fun navigateToAccount(activity: BaseActivity) {
+
+  }
 }

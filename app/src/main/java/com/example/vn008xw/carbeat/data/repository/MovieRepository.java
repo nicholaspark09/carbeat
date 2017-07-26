@@ -138,8 +138,9 @@ public class MovieRepository {
   }
 
   @Nullable
-  public Movie getCachedMovie() {
-    return cachedMovie;
+  public Movie getCachedMovie() throws IllegalArgumentException {
+    if (cachedMovie != null) return cachedMovie;
+    else throw new IllegalArgumentException("No movie was found");
   }
 
   @MainThread

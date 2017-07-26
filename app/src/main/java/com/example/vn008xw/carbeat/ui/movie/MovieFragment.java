@@ -132,6 +132,7 @@ public class MovieFragment extends BaseView {
     binding.get().fab.setOnClickListener((v) -> {
       if (binding.get().getSaved()) {
         // TODO complete the delete from favorites
+        viewModel.removeMovieFromFavorites();
       } else {
         if (binding.get().getMovie() != null) {
           viewModel.saveMovie(binding.get().getMovie());

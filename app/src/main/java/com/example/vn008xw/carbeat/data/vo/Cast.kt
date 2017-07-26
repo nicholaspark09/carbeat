@@ -10,7 +10,7 @@ data class Cast constructor(
     @SerializedName("character")
     val character: String,
     @SerializedName("credit_id")
-    val creditId: Int,
+    val creditId: String,
     @SerializedName("department")
     val department: String,
     @SerializedName("gender")

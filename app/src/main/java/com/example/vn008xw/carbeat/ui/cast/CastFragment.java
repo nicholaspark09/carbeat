@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.vn008xw.carbeat.AppComponent;
 import com.example.vn008xw.carbeat.base.BaseView;
@@ -56,11 +58,14 @@ public class CastFragment extends BaseView {
 
     final CastListAdapter adapter = new CastListAdapter();
     castAdapter = new AutoClearedValue<>(this, adapter);
-
+    binding.get().recyclerView.setAdapter(adapter);
 
     viewModel.getCast().observe(this, observer -> {
       if (observer.status == SUCCESS) {
+        Log.d("CastFragment", "You got a successful callback with " + observer.data.size() + " items");
         castAdapter.get().replace(observer.data);
+      }else {
+        Toast.makeText(getContext(), observer.message, Toast.LENGTH_LONG);
       }
       setLoading(observer.status);
     });

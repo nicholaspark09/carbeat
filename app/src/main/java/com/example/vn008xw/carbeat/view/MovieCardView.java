@@ -4,15 +4,17 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.example.vn008xw.carbeat.R;
 
@@ -20,7 +22,7 @@ import com.example.vn008xw.carbeat.R;
  * Created by vn008xw on 7/1/17.
  */
 
-public class MovieCardView extends RelativeLayout {
+public class MovieCardView extends FrameLayout {
 
   private boolean flingable;
   private boolean moveable;
@@ -32,6 +34,7 @@ public class MovieCardView extends RelativeLayout {
   private ValueAnimator valueAnimator;
   private GestureDetector gestureDetector;
   private ObjectAnimator objectAnimator;
+  private ElevationBehavior mElevationBehavior;
 
   public static final int FLING_VELOCITY_DOWNSCALE = 4;
   public static final int AUTOCENTER_ANIM_DURATION = 250;
@@ -71,7 +74,15 @@ public class MovieCardView extends RelativeLayout {
   }
 
   private void init() {
+    final Resources resources = getResources();
+    mElevationBehavior = new ElevationBehavior(resources.getDimensionPixelSize(R.dimen.card_default_elevation));
 
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    mElevationBehavior.onTouchEvent(this, event);
+    return super.onTouchEvent(event);
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)

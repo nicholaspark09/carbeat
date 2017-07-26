@@ -78,6 +78,9 @@ public class MainActivity extends BaseActivity {
         case R.id.poster_nav_menu_item:
           // TODO navigate to poster fragment when you're created it
           break;
+        case R.id.account_nav_menu_item:
+
+          break;
         default:
           break;
       }

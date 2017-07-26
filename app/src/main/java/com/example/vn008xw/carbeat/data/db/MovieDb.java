@@ -15,4 +15,6 @@ public abstract class MovieDb extends RoomDatabase {
   abstract public MovieDao movieDao();
 
   abstract public FavoriteMovieDao favoriteMovieDao();
+
+  abstract public AccountDao accountDao();
 }

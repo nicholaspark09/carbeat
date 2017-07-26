@@ -14,5 +14,7 @@
     <string name="nav_menu_account">Account</string>
     <string name="nav_open">Open navigation drawer</string>
     <string name="nav_close">Close navigation drawer</string>
+
+    <!-- Cast Activity -->
     <string name="title_activity_cast">CastActivity</string>
 </resources>

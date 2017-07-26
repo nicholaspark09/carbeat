@@ -39,7 +39,7 @@ public class TestUtil {
   public static Cast createCast(int id,
                                 @NonNull String name,
                                 @NonNull String department) {
-    return new Cast(id, name, 2,
+    return new Cast(id, name, "2343",
             department, 1, "", id, name, 1, "");
   }
 

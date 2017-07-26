@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.example.vn008xw.carbeat.AppExecutors;
 import com.example.vn008xw.carbeat.BuildConfig;
 import com.example.vn008xw.carbeat.data.api.MovieService;
+import com.example.vn008xw.carbeat.data.db.AccountDao;
 import com.example.vn008xw.carbeat.data.db.FavoriteMovieDao;
 import com.example.vn008xw.carbeat.data.db.MovieDao;
 import com.example.vn008xw.carbeat.data.db.MovieDb;
@@ -131,6 +132,12 @@ public class DataModule {
   @ApplicationScope
   FavoriteMovieDao provideFavoriteMovieDao(MovieDb movieDb) {
     return DaggerUtils.track(movieDb.favoriteMovieDao());
+  }
+
+  @Provides
+  @ApplicationScope
+  AccountDao provideAccountDao(@NonNull MovieDb movieDb) {
+    return DaggerUtils.track(movieDb.accountDao());
   }
 
   @Provides

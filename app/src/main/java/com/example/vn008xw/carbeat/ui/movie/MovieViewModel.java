@@ -19,10 +19,6 @@ import com.example.vn008xw.carbeat.data.vo.Resource;
 
 import javax.inject.Inject;
 
-/**
- * Created by vn008xw on 7/11/17.
- */
-
 public class MovieViewModel extends ViewModel {
 
   @VisibleForTesting
@@ -98,7 +94,9 @@ public class MovieViewModel extends ViewModel {
 
   void removeMovieFromFavorites() {
     if (favoriteMovie.getValue() != null && favoriteMovie.getValue().data != null) {
+      final int movieId = favoriteMovie.getValue().data.getMovie().getId();
       favoriteRepository.deleteFavoriteMovie(favoriteMovie.getValue().data);
+      saved.setValue(Pair.create(movieId, false));
     }else {
       throw new IllegalArgumentException("This movie isn't in your favorites");
     }

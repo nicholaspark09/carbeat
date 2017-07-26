@@ -6,6 +6,7 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.example.vn008xw.carbeat.data.repository.MovieRepository;
 import com.example.vn008xw.carbeat.data.repository.cast.CastRepository;
@@ -41,15 +42,19 @@ public class CastViewModel extends ViewModel {
     this.movieRepository = movieRepository;
     movieId = new MutableLiveData<>();
 
-    cast = Transformations.switchMap(movieId,
-            id -> id == null
-                    ? AbsentLiveData.create()
-                    : castRepository.getMovieCast(id));
+    cast = Transformations.switchMap(movieId, id -> {
+      if (id == null) return AbsentLiveData.create();
+      else return castRepository.getMovieCast(id);
+    });
   }
 
   public void findMovie() {
-    final Movie movie = movieRepository.getCachedMovie();
-    movieId.setValue(movie != null ? movie.getId() : null);
+    try {
+      final Movie movie = movieRepository.getCachedMovie();
+      movieId.setValue(movie.getId());
+    }catch(IllegalArgumentException e) {
+      Log.d("CastViewModel", "There was no saved movie");
+    }
   }
 
   public LiveData<Resource<List<Cast>>> getCast() {

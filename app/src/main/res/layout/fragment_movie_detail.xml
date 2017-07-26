@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable name="loading" type="boolean"/>
+        <variable name="imageUrl" type="String"/>
+        <variable name="saved" type="boolean"/>
+        <variable name="movie"
+                  type="com.example.vn008xw.carbeat.data.vo.Movie"/>
+    </data>
+
+    <com.example.vn008xw.carbeat.view.MovieCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"/>
+
+    </com.example.vn008xw.carbeat.view.MovieCardView>
+</layout>

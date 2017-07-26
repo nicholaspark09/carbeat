@@ -3,6 +3,7 @@ package com.example.vn008xw.carbeat;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.example.vn008xw.carbeat.ui.account.AccountViewModel;
 import com.example.vn008xw.carbeat.ui.cast.CastViewModel;
 import com.example.vn008xw.carbeat.ui.favorites.FavoritesViewModel;
 import com.example.vn008xw.carbeat.ui.movie.MovieViewModel;
@@ -44,6 +45,11 @@ abstract class ViewModelModule {
   @IntoMap
   @ViewModelKey(CastViewModel.class)
   abstract ViewModel bindCastViewModel(CastViewModel castViewModel);
+
+  @Binds
+  @IntoMap
+  @ViewModelKey(AccountViewModel.class)
+  abstract ViewModel bindAccountViewModel(AccountViewModel accountViewModel);
 
   @Binds
   abstract ViewModelProvider.Factory bindViewModelFactory(CarBeatViewModelFactory factory);
