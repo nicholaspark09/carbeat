@@ -19,7 +19,7 @@ public abstract class AccountDao {
   @Query("SELECT * FROM account WHERE id = :id LIMIT 1")
   public abstract LiveData<Account> findAccountById(@NonNull int id);
 
-  @Query("SELECT * FROM account WHERE email = :email LIMIT 1")
+  @Query("SELECT * FROM account WHERE email = :email AND pin = :pin LIMIT 1")
   public abstract LiveData<Account> loadAccount(@NonNull String email,
                                                 @NonNull String pin);
 

@@ -12,8 +12,7 @@ import com.example.vn008xw.carbeat.data.vo.Resource;
 
 public interface AccountDataSource {
 
-  @NonNull
-  LiveData<Resource<Long>> insertAccount(@NonNull String firstName,
+  void insertAccount(@NonNull String firstName,
                                          @NonNull String lastName,
                                          @NonNull String email,
                                          @NonNull String pin);

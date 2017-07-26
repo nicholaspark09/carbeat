@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "account", primaryKeys = arrayOf("id"))
+@Entity(tableName = "account")
 data class Account constructor(
     @SerializedName("first_name")
     val firstName: String,

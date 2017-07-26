@@ -47,18 +47,15 @@ public class AccountRepository implements AccountDataSource {
   }
 
   @Override
-  public LiveData<Resource<Long>> insertAccount(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String pin) {
-
-    final MediatorLiveData<Resource<Long>> result = new MediatorLiveData<>();
-    result.setValue(Resource.loading(null));
+  public void insertAccount(@NonNull String firstName, @NonNull String lastName,
+                            @NonNull String email, @NonNull String pin) {
 
     appExecutors.diskIO().execute(() -> {
       final Account account =
               new Account(firstName, lastName, email, pin);
       Long id = accountDao.insertAccount(account);
-      appExecutors.mainThread().execute(() -> result.setValue(Resource.success(id)));
+      appExecutors.mainThread().execute(() -> loggedId.setValue(id.intValue()));
     });
-    return result;
   }
 
   @Override
