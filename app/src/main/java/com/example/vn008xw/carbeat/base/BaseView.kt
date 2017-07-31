@@ -21,7 +21,7 @@ abstract class BaseView : LifecycleFragment() {
     super.onAttach(context)
     if (!injected && BuildConfig.BUILD_TYPE.equals("debug")) {
       // TODO when running tests, comment out the next line
-      //inject(DaggerService.getAppComponent(context))
+      inject(DaggerService.getAppComponent(context))
       injected = false
     }
   }

@@ -12,15 +12,17 @@ import com.example.vn008xw.carbeat.data.vo.Resource;
 
 public interface AccountDataSource {
 
-  void insertAccount(@NonNull String firstName,
-                                         @NonNull String lastName,
-                                         @NonNull String email,
-                                         @NonNull String pin);
   @NonNull
-  LiveData<Resource<Integer>> loggedInAccountId();
+  LiveData<Resource<Long>> insertAccount(@NonNull String firstName,
+                               @NonNull String lastName,
+                               @NonNull String email,
+                               @NonNull String pin);
 
   @NonNull
-  LiveData<Resource<Account>> findAccountById(@NonNull Integer id);
+  LiveData<Resource<Long>> loggedInAccountId();
+
+  @NonNull
+  LiveData<Resource<Account>> findAccountById(@NonNull Long id);
 
   @NonNull
   LiveData<Resource<Account>> signIn(@NonNull String email,

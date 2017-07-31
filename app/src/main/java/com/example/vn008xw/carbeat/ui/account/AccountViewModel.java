@@ -1,6 +1,7 @@
 package com.example.vn008xw.carbeat.ui.account;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
@@ -19,7 +20,7 @@ public class AccountViewModel extends ViewModel {
   @VisibleForTesting
   final AccountRepository accountRepository;
   @VisibleForTesting
-  final LiveData<Resource<Integer>> accountId;
+  final MutableLiveData<Long> accountId;
   @VisibleForTesting
   final LiveData<Resource<Account>> account;
 
@@ -28,28 +29,32 @@ public class AccountViewModel extends ViewModel {
   public AccountViewModel(@NonNull AccountRepository accountRepository) {
     this.accountRepository = accountRepository;
 
-    accountId = accountRepository.loggedInAccountId();
+    accountId = new MutableLiveData<>();
 
     account = Transformations.switchMap(accountId, id -> {
-      if (id == null || id.data == -1) return AbsentLiveData.create();
-      else return accountRepository.findAccountById(id.data);
+      if (id == null) return AbsentLiveData.create();
+      else return accountRepository.findAccountById(id);
     });
   }
 
-  void createAccount(@NonNull String firstName,
+  LiveData<Resource<Long>> createAccount(@NonNull String firstName,
                      @NonNull String lastName,
                      @NonNull String email,
                      @NonNull String pin) {
-    accountRepository.insertAccount(firstName, lastName,
+    return accountRepository.insertAccount(firstName, lastName,
             email, pin);
   }
 
-  LiveData<Resource<Integer>> getLoggedId() {
-    return accountId;
+  LiveData<Resource<Long>> getLoggedId() {
+    return accountRepository.loggedInAccountId();
   }
 
-  LiveData<Resource<Account>> findAccountById() {
+  LiveData<Resource<Account>> getAccount() {
     return account;
+  }
+
+  void setAccountId(Long id) {
+    accountId.setValue(id);
   }
 
   void logout() {

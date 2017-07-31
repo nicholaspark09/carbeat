@@ -35,7 +35,7 @@ public class AccountRepository implements AccountDataSource {
   @VisibleForTesting
   final SharedPreferences sharedPreferences;
   @VisibleForTesting
-  final MutableLiveData<Integer> loggedId = new MutableLiveData<>();
+  final MutableLiveData<Long> loggedId = new MutableLiveData<>();
 
   @Inject
   public AccountRepository(@NonNull AppExecutors appExecutors,
@@ -47,39 +47,58 @@ public class AccountRepository implements AccountDataSource {
   }
 
   @Override
-  public void insertAccount(@NonNull String firstName, @NonNull String lastName,
-                            @NonNull String email, @NonNull String pin) {
-
+  public LiveData<Resource<Long>> insertAccount(@NonNull String firstName,
+                                                @NonNull String lastName,
+                                                @NonNull String email,
+                                                @NonNull String pin) {
+    final MediatorLiveData<Resource<Long>> result = new MediatorLiveData<>();
+    final Account account =
+            new Account(firstName, lastName, email, pin);
+    result.setValue(Resource.loading(null));
     appExecutors.diskIO().execute(() -> {
-      final Account account =
-              new Account(firstName, lastName, email, pin);
-      Long id = accountDao.insertAccount(account);
-      appExecutors.mainThread().execute(() -> loggedId.setValue(id.intValue()));
-    });
-  }
-
-  @Override
-  public LiveData<Resource<Integer>> loggedInAccountId() {
-    final MediatorLiveData<Resource<Integer>> result = new MediatorLiveData<>();
-    appExecutors.diskIO().execute(() -> {
-      appExecutors.mainThread().execute(() -> {
-        result.addSource(loggedId, observer -> {
-          if (observer == -1) {
-            Log.d(TAG, "The user id was set to -1");
-            result.setValue(Resource.error("Logged out", null));
-          }
-          else
-            result.setValue(Resource.success(observer));
-        });
-      });
-      loggedId.setValue(sharedPreferences.getInt(KEY_ACCOUNT_ID, -1));
+      long inserted = accountDao.insertAccount(account);
+      Log.d(TAG, "The id was: " + inserted);
+      sharedPreferences.edit().putLong(KEY_ACCOUNT_ID, inserted).commit();
+      appExecutors.mainThread().execute(() -> result.setValue(Resource.success(inserted)));
     });
     return result;
   }
 
   @Override
-  public LiveData<Resource<Account>> findAccountById(@NonNull Integer id) {
-    return null;
+  public LiveData<Resource<Long>> loggedInAccountId() {
+    final MediatorLiveData<Resource<Long>> result = new MediatorLiveData<>();
+    appExecutors.diskIO().execute(() -> {
+      long id = sharedPreferences.getLong(KEY_ACCOUNT_ID, -1);
+      Log.d(TAG, "The id was: " + id);
+      appExecutors.mainThread().execute(() -> {
+        loggedId.setValue(id);
+        if (id != -1) {
+          result.setValue(Resource.success(id));
+        }
+        else
+          result.setValue(Resource.error("Didn't have a logged in user", null));
+      });
+    });
+    return result;
+  }
+
+  @Override
+  public LiveData<Resource<Account>> findAccountById(@NonNull Long id) {
+    final MutableLiveData<Resource<Account>> result = new MutableLiveData<>();
+    result.setValue(Resource.loading(null));
+    appExecutors.diskIO().execute(() -> {
+      Log.d(TAG, "Trying to find an account with id: " + id);
+      final LiveData<Account> account = accountDao.findAccountById(id);
+      appExecutors.mainThread().execute(() -> {
+        if (account.getValue() != null) {
+          sharedPreferences.edit().putLong(KEY_ACCOUNT_ID, id);
+          result.setValue(Resource.success(account.getValue()));
+        } else {
+          result.setValue(Resource.error("Couldn't find the account", null));
+        }
+      });
+    });
+    return result;
   }
 
   @Override
@@ -90,6 +109,6 @@ public class AccountRepository implements AccountDataSource {
   @Override
   public void logout() {
     Log.d(TAG, "Logging out or trying to...");
-    loggedId.setValue(-1);
+    loggedId.setValue(null);
   }
 }

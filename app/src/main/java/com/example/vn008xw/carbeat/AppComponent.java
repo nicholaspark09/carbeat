@@ -1,5 +1,6 @@
 package com.example.vn008xw.carbeat;
 
+import com.example.vn008xw.carbeat.ui.account.AccountFragment;
 import com.example.vn008xw.carbeat.ui.cast.CastActivity;
 import com.example.vn008xw.carbeat.ui.cast.CastFragment;
 import com.example.vn008xw.carbeat.ui.favorites.FavoritesFragment;
@@ -27,4 +28,6 @@ public interface AppComponent {
   void inject(CastActivity castActivity);
 
   void inject(CastFragment castFragment);
+
+  void inject(AccountFragment accountFragment);
 }

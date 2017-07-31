@@ -1,12 +1,14 @@
 package com.example.vn008xw.carbeat.ui
 
 import android.content.Intent
+import android.support.v4.app.Fragment
 import android.util.Log
 import android.widget.ImageView
 import com.example.vn008xw.carbeat.MainActivity
 import com.example.vn008xw.carbeat.R
 import com.example.vn008xw.carbeat.base.BaseActivity
 import com.example.vn008xw.carbeat.di.ApplicationScope
+import com.example.vn008xw.carbeat.ui.account.AccountFragment
 import com.example.vn008xw.carbeat.ui.favorites.FavoritesFragment
 import com.example.vn008xw.carbeat.ui.movie.MovieActivity
 import com.example.vn008xw.carbeat.ui.movies.MoviesFragment
@@ -25,6 +27,11 @@ class NavigationController @Inject constructor() {
     containerId = R.id.container
   }
 
+  fun setPreviousScreenName(fragment: Fragment) {
+    val screenName = fragment::class.java.simpleName
+    previousScreen = screenName
+  }
+
   fun navigateToMovies(activity: MainActivity) {
     val screenName = MoviesFragment::class.java.simpleName.toString()
     if (previousScreen == null || !previousScreen.equals(screenName, true)) {
@@ -33,18 +40,17 @@ class NavigationController @Inject constructor() {
           .beginTransaction()
           .replace(containerId, moviesFragment)
           .commitAllowingStateLoss()
-      previousScreen = screenName
+      setPreviousScreenName(moviesFragment)
     }
   }
 
   fun navigateToFavorites(activity: MainActivity) {
-    val screenName = FavoritesFragment::class.java.simpleName.toString()
     val favorites = FavoritesFragment.newInstance()
     activity.supportFragmentManager
         .beginTransaction()
         .replace(containerId, favorites)
         .commitAllowingStateLoss()
-    previousScreen = screenName
+    setPreviousScreenName(favorites)
   }
 
   fun navigateToMovie(activity: BaseActivity, movieId: Int, imageView: ImageView?) {
@@ -54,6 +60,11 @@ class NavigationController @Inject constructor() {
   }
 
   fun navigateToAccount(activity: BaseActivity) {
-
+    val account = AccountFragment.newInstance()
+    activity.supportFragmentManager
+        .beginTransaction()
+        .replace(containerId, account)
+        .commitAllowingStateLoss()
+    setPreviousScreenName(account)
   }
 }

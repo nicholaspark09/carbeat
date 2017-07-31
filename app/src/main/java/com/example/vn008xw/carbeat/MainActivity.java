@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
           // TODO navigate to poster fragment when you're created it
           break;
         case R.id.account_nav_menu_item:
-
+          navigationController.navigateToAccount(this);
           break;
         default:
           break;

@@ -14,10 +14,10 @@ import com.example.vn008xw.carbeat.data.vo.Account;
 public abstract class AccountDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract Long insertAccount(@NonNull Account account);
+  public abstract long insertAccount(@NonNull Account account);
 
   @Query("SELECT * FROM account WHERE id = :id LIMIT 1")
-  public abstract LiveData<Account> findAccountById(@NonNull int id);
+  public abstract LiveData<Account> findAccountById(@NonNull Long id);
 
   @Query("SELECT * FROM account WHERE email = :email AND pin = :pin LIMIT 1")
   public abstract LiveData<Account> loadAccount(@NonNull String email,

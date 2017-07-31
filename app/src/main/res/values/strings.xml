@@ -17,4 +17,16 @@
 
     <!-- Cast Activity -->
     <string name="title_activity_cast">CastActivity</string>
+
+    <!-- Account Screen -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="pin">Pin</string>
+    <string name="save">Save</string>
+
+    <!-- Errors -->
+    <string name="error_first_name">Please enter a first name</string>
+    <string name="error_last_name">Please enter a last name</string>
+    <string name="error_email">Please enter a valid email</string>
 </resources>
