@@ -9,6 +9,7 @@ import com.example.vn008xw.carbeat.ui.favorites.FavoritesViewModel;
 import com.example.vn008xw.carbeat.ui.movie.MovieViewModel;
 import com.example.vn008xw.carbeat.ui.movies.MoviesViewModel;
 import com.example.vn008xw.carbeat.ui.review.ReviewViewModel;
+import com.example.vn008xw.carbeat.ui.shows.ShowsViewModel;
 import com.example.vn008xw.carbeat.utils.CarBeatViewModelFactory;
 
 import dagger.Binds;
@@ -50,6 +51,11 @@ abstract class ViewModelModule {
   @IntoMap
   @ViewModelKey(AccountViewModel.class)
   abstract ViewModel bindAccountViewModel(AccountViewModel accountViewModel);
+
+  @Binds
+  @IntoMap
+  @ViewModelKey(ShowsViewModel.class)
+  abstract ViewModel bindShowsViewModel(ShowsViewModel showsViewModel);
 
   @Binds
   abstract ViewModelProvider.Factory bindViewModelFactory(CarBeatViewModelFactory factory);

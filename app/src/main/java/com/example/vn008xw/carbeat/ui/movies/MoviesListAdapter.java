@@ -25,7 +25,7 @@ public class MoviesListAdapter extends DataBoundAdapter<Movie, ListItemMovieBind
   protected ListItemMovieBinding createBinding(ViewGroup parent) {
     ListItemMovieBinding binding = ListItemMovieBinding.inflate(LayoutInflater.from(parent.getContext()));
 
-    binding.getRoot().setOnClickListener(v->{
+    binding.getRoot().setOnClickListener(v -> {
       final Movie movie = binding.getMovie();
       if (movie != null && movieClickCallback != null) {
         movieClickCallback.onClick(movie, binding.imageView);

@@ -7,6 +7,7 @@ import com.example.vn008xw.carbeat.ui.favorites.FavoritesFragment;
 import com.example.vn008xw.carbeat.ui.movie.MovieActivity;
 import com.example.vn008xw.carbeat.ui.movie.MovieFragment;
 import com.example.vn008xw.carbeat.ui.movies.MoviesFragment;
+import com.example.vn008xw.carbeat.ui.shows.ShowsFragment;
 
 /**
  * Created by vn008xw on 6/6/17.
@@ -30,4 +31,6 @@ public interface AppComponent {
   void inject(CastFragment castFragment);
 
   void inject(AccountFragment accountFragment);
+
+  void inject(ShowsFragment showsFragment);
 }

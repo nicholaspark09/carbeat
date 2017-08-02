@@ -6,9 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-/**
- * Created by vn008xw on 6/11/17.
- */
 interface MovieService {
   @GET("/3/discover/movie")
   fun discoverByYear(@Query("api_key") apiKey: String,
@@ -28,5 +25,7 @@ interface MovieService {
   fun getCredits(@Path("movieId") movieId: Int,
                  @Query("api_key") apiKey: String): LiveData<ApiResponse<MovieCastResult>>
 
-
+  @GET("/3/discover/tv")
+  fun getPopularTvShows(@Query("api_key") apiKey: String,
+                        @Query("page") page: Int): LiveData<ApiResponse<ShowResult>>
 }

@@ -30,9 +30,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * Created by vn008xw on 6/19/17.
- */
 public class MoviesFragment extends BaseView {
 
   private static final String TAG = MoviesFragment.class.getSimpleName();
