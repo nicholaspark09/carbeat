@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="MovieCardView">
         <attr name="flingable" format="boolean"/>
-        <attr name="moveable" format="boolean"/>
         <attr name="peekable" format="boolean"/>
         <attr name="title" format="string"/>
         <attr name="description" format="string"/>
@@ -10,5 +9,12 @@
     <declare-styleable name="ExpandableFabView">
         <attr name="direction" format="enum"/>
         <attr name="action" format="enum"/>
+    </declare-styleable>
+    <declare-styleable name="ModalView">
+        <attr name="animate" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="PhoneView">
+        <attr name="american" format="boolean"/>
+        <attr name="korean" format="boolean"/>
     </declare-styleable>
 </resources>

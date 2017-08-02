@@ -29,4 +29,5 @@
     <string name="error_first_name">Please enter a first name</string>
     <string name="error_last_name">Please enter a last name</string>
     <string name="error_email">Please enter a valid email</string>
+    <string name="phone_number">Phone Number</string>
 </resources>

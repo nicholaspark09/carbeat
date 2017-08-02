@@ -29,6 +29,12 @@ public class ViewUtil {
     }
 
     @UiThread
+    @SuppressWarnings("unchecked")
+    public static <T extends View> T findViewById(@NonNull Activity activity, @IdRes int id) {
+        return (T) activity.findViewById(id);
+    }
+
+    @UiThread
     @NonNull
     @SuppressWarnings("unchecked")
     public static <T extends View> T inflate(@LayoutRes int resId, @NonNull ViewGroup parent) {

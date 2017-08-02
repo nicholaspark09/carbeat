@@ -48,6 +48,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/third_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@+id/second_layout"
@@ -62,6 +63,18 @@
                 android:text="@{account.Email}"/>
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@+id/third_layout"
+            app:layout_constraintTop_toBottomOf="@+id/third_layout">
+
+            <com.example.vn008xw.carbeat.view.PhoneView
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/phone_number"/>
+        </android.support.design.widget.TextInputLayout>
+
         <Button
             android:id="@+id/save_button"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -71,6 +84,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
+
+        <!--<com.example.vn008xw.carbeat.view.ModalView-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="400dp"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:elevation="16dp"-->
+            <!--app:animate="true"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent">-->
+
+
+
+        <!--</com.example.vn008xw.carbeat.view.ModalView>-->
 
         <ProgressBar
             android:layout_width="wrap_content"

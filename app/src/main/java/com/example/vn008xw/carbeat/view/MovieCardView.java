@@ -54,7 +54,6 @@ public class MovieCardView extends FrameLayout {
     );
     try {
       flingable = typedArray.getBoolean(R.styleable.MovieCardView_flingable, false);
-      moveable = typedArray.getBoolean(R.styleable.MovieCardView_moveable, false);
       peekable = typedArray.getBoolean(R.styleable.MovieCardView_peekable, false);
       title = typedArray.getString(R.styleable.MovieCardView_title);
       description = typedArray.getString(R.styleable.MovieCardView_description);
